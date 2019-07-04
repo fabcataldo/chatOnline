@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth'
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class AuthService {
 
   //en el constructor inyectamos una instancia del módulo AngularFireAuth
   //inyecto la clase angularfireauth, hablando en cordobés...
-  constructor(private AFauth: AngularFireAuth) { }
+  constructor(private AFauth: AngularFireAuth, public router:Router) { }
 
   login(email:string, password: string){
     //el método signinwithemailandpassword() ya devuelve un objeto promesa
@@ -32,5 +33,11 @@ export class AuthService {
       console.log(res)
     }).catch(err=>console.log('Error: '+err));
     */
+  }
+
+  logout(){
+    this.AFauth.auth.signOut().then(()=>{
+      this.router.navigate(['/login']);
+    });
   }
 }
